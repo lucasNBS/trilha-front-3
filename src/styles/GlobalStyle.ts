@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from "styled-components"
 
 const GlobalStyle = createGlobalStyle`
   *, *::before, *::after {
@@ -8,6 +8,11 @@ const GlobalStyle = createGlobalStyle`
     border: none;
     outline: none;
     font-size: 16px;
+  }
+  
+  a {
+    color: inherit;
+    text-decoration: none;
   }
 
   @font-face {

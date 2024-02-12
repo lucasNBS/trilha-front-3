@@ -1,3 +1,5 @@
+import DefaultTemplate from "src/templates/DefaultTemplate"
+
 export default function Home() {
-  return null;
+  return <DefaultTemplate>{null}</DefaultTemplate>
 }
