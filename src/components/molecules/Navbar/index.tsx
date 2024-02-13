@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { NavbarContainer, NavbarList, NavbarListItem } from "./style"
 
-export type TypeType = "header" | "footer"
+export type TypeType = "header" | "footer" | "aside"
 
 type NavbarProps = {
   type: TypeType

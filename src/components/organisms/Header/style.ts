@@ -16,6 +16,10 @@ export const HeaderContainer = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media screen and (max-width: 550px) {
+    padding: 1rem 2rem;
+  }
 `
 
 export const HeaderSubcontainer = styled.div<{ gap?: number }>`

@@ -13,10 +13,13 @@ export const NavbarContainer = styled.nav<{ type: TypeType }>`
 
 export const NavbarList = styled.ul<{ type: TypeType }>`
   display: flex;
-  flex-direction: ${({ type }) => type === "footer" && "column"};
+  flex-direction: ${({ type }) =>
+    (type === "footer" || type === "aside") && "column"};
   justify-content: center;
-  align-items: ${({ type }) => (type === "footer" ? "flex-start" : "center")};
-  gap: ${({ type }) => (type === "footer" ? "0.5rem" : "1.5rem")};
+  align-items: ${({ type }) =>
+    type === "footer" || type === "aside" ? "flex-start" : "center"};
+  gap: ${({ type }) =>
+    type === "footer" ? "0.5rem" : type === "aside" ? "1rem" : "1.5rem"};
 `
 
 export const NavbarListItem = styled.li`
