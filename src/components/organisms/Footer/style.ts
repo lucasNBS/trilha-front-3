@@ -4,6 +4,7 @@ export const FooterContainer = styled.footer`
   background-color: ${({ theme }) => theme.colors.primary};
   width: 100%;
   padding: 3rem 4rem 4rem;
+  margin-top: 4rem;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;

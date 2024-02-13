@@ -10,12 +10,13 @@ export const Background = styled.div`
 export const HeaderContainer = styled.header`
   background-color: ${({ theme }) => theme.colors.primary};
   position: sticky;
-  top: 0;
+  top: -1px;
   width: 100%;
   padding: 1rem 3rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  z-index: 10;
 
   @media screen and (max-width: 550px) {
     padding: 1rem 2rem;
