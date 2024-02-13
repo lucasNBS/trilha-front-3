@@ -9,6 +9,10 @@ export const InfoContainer = styled.section`
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
+
+  @media screen and (max-width: 550px) {
+    padding: 4rem 2rem;
+  }
 `
 
 export const Title = styled.h2`
@@ -23,4 +27,8 @@ export const Text = styled.p`
   font-size: clamp(1rem, 5vw, 1.2rem);
   font-family: ${({ theme }) => theme.fonts.primary};
   color: #fff;
+
+  @media screen and (max-width: 1200px) {
+    width: unset;
+  }
 `

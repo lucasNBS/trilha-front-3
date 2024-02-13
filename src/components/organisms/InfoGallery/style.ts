@@ -9,4 +9,8 @@ export const InfoGalleryContainer = styled.section`
   justify-content: flex-start;
   align-items: center;
   gap: 4rem;
+
+  @media screen and (max-width: 550px) {
+    padding: 0 2rem;
+  }
 `

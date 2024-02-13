@@ -6,6 +6,7 @@ export const InfoCardContainer = styled.article<{ isEven: boolean }>`
   flex-direction: ${({ isEven }) => isEven && "row-reverse"};
   justify-content: space-between;
   align-items: center;
+  gap: 2rem;
 
   .image {
     width: 100%;
@@ -13,6 +14,11 @@ export const InfoCardContainer = styled.article<{ isEven: boolean }>`
     height: 300px;
     object-fit: cover;
     object-position: center;
+  }
+
+  @media screen and (max-width: 1024px) {
+    flex-direction: column;
+    gap: 1rem;
   }
 `
 

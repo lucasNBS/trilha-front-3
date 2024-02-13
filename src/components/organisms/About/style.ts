@@ -7,13 +7,22 @@ export const AboutContainer = styled.section`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 2rem;
 
   .image {
     width: 100%;
     max-width: 500px;
-    height: 700px;
+    height: 600px;
     object-fit: cover;
     object-position: center;
+  }
+
+  @media screen and (max-width: 1024px) {
+    flex-direction: column;
+  }
+
+  @media screen and (max-width: 550px) {
+    padding: 0 2rem;
   }
 `
 

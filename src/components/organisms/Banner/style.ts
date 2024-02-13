@@ -21,6 +21,14 @@ export const BannerContainer = styled.section`
     inset: 0;
     z-index: -1;
   }
+
+  @media screen and (max-width: 1400px) {
+    height: 700px;
+  }
+
+  @media screen and (max-width: 768px) {
+    padding: 4rem 1rem;
+  }
 `
 
 export const BannerSubcontainer = styled.div`
@@ -39,6 +47,7 @@ export const Title = styled.h2`
 `
 
 export const Subtitle = styled.p`
+  text-align: right;
   font-size: clamp(1rem, 5vw, 2rem);
   font-family: ${({ theme }) => theme.fonts.secondary};
   color: #fff;

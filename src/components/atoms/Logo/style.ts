@@ -19,7 +19,7 @@ export const Title = styled.span<{ type: TypeType }>`
   font-weight: 700;
   color: #fff;
 
-  @media screen and (max-width: 1024px) {
+  @media screen and (max-width: 850px) {
     display: ${({ type }) => type === "header" && "none"};
   }
 `
