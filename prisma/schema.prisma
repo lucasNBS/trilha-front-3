@@ -18,8 +18,9 @@ model Article {
 
 model User {
   id       Int       @id @default(autoincrement())
+  name     String
   email    String    @unique
   password String
   articles Article[]
-  idAdmin  Boolean   @default(false)
+  isAdmin  Boolean   @default(false)
 }

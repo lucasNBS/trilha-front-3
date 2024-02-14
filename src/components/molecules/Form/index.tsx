@@ -14,6 +14,13 @@ import {
 import { useForm } from "react-hook-form"
 import * as Yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
+import baseAxios from "src/lib/axios"
+
+type DataType = {
+  name: string
+  email: string
+  password: string
+}
 
 const subscribeFormSchema = Yup.object().shape({
   name: Yup.string()
@@ -43,7 +50,13 @@ export default function Form() {
     resolver: yupResolver(subscribeFormSchema),
   })
 
-  function submit() {}
+  async function submit(data: DataType) {
+    try {
+      const res = await baseAxios.post("user", { body: JSON.stringify(data) })
+    } catch (err: any) {
+      console.log(err.message)
+    }
+  }
 
   return (
     <FormContainer onSubmit={handleSubmit(submit)}>
