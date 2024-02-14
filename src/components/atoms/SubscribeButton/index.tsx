@@ -8,7 +8,7 @@ type SubscribeButtonProps = {
 
 export default function SubscribeButton({ type }: SubscribeButtonProps) {
   return (
-    <SubscribeButtonContainer type={type}>
+    <SubscribeButtonContainer href="/#form" type={type}>
       Inscrever-se
     </SubscribeButtonContainer>
   )

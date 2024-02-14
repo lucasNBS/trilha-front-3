@@ -14,6 +14,12 @@ export const InfoCardContainer = styled.article<{ isEven: boolean }>`
     height: 300px;
     object-fit: cover;
     object-position: center;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+    transition: 200ms ease-in;
+
+    &:hover {
+      transform: scale(1.025);
+    }
   }
 
   @media screen and (max-width: 1024px) {

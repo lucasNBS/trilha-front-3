@@ -3,7 +3,7 @@ import { SubscribeSectionContainer, Title } from "./style"
 
 export default function SubscribeSection() {
   return (
-    <SubscribeSectionContainer>
+    <SubscribeSectionContainer id="form">
       <Title>Increva-se</Title>
       <Form />
     </SubscribeSectionContainer>

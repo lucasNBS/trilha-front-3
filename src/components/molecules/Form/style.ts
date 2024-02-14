@@ -51,6 +51,7 @@ export const ErrorMessage = styled.span`
 `
 
 export const FormButton = styled.button`
+  cursor: pointer;
   background-color: ${({ theme }) => theme.colors.secondary};
   padding: 1rem 2rem;
   margin-top: 1rem;
@@ -58,4 +59,9 @@ export const FormButton = styled.button`
   font-weight: 700;
   text-transform: uppercase;
   color: #fff;
+  transition: 200ms ease-in;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.tertiary};
+  }
 `

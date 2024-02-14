@@ -15,6 +15,11 @@ export const AboutContainer = styled.section`
     height: 600px;
     object-fit: cover;
     object-position: center;
+    transition: 200ms ease-in;
+
+    &:hover {
+      transform: scale(1.025);
+    }
   }
 
   @media screen and (max-width: 1024px) {

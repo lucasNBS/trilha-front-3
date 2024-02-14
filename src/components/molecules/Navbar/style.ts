@@ -29,4 +29,9 @@ export const NavbarListItem = styled.li`
   font-family: ${({ theme }) => theme.fonts.primary};
   font-size: 1.25rem;
   color: #fff;
+  transition: 200ms ease-in;
+
+  &:hover {
+    opacity: 0.7;
+  }
 `
