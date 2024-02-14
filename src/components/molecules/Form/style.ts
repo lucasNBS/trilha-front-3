@@ -44,6 +44,12 @@ export const Icon = styled(Image)`
   transform: translateY(-50%);
 `
 
+export const ErrorMessage = styled.span`
+  font-size: 0.9rem;
+  font-family: ${({ theme }) => theme.fonts.primary};
+  color: #f00;
+`
+
 export const FormButton = styled.button`
   background-color: ${({ theme }) => theme.colors.secondary};
   padding: 1rem 2rem;
