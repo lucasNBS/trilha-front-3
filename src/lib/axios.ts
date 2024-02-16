@@ -4,8 +4,8 @@ import { parseCookies } from "nookies"
 const baseAxios = axios.create({
   baseURL: "http://localhost:3000/api/",
   headers: {
-    Authorization: `Bearer ${parseCookies()["AccessToken"]}`
-  }
+    Authorization: `Bearer ${parseCookies()["AccessToken"]}`,
+  },
 })
 
 baseAxios.interceptors.request.use(async (req) => {
@@ -20,10 +20,13 @@ baseAxios.interceptors.response.use(
   async (err) => {
     if (err.response.status === 401) {
       const originalConfig = err.config
-      baseAxios.post("user/token", { body: { refreshToken: parseCookies()["RefreshToken"] } })
+      baseAxios
+        .post("user/token", {
+          body: { refreshToken: parseCookies()["RefreshToken"] },
+        })
         .then((res) => {
           baseAxios.defaults.headers.common = {
-            Authorization: `Bearer ${parseCookies()["AccessToken"]}`
+            Authorization: `Bearer ${parseCookies()["AccessToken"]}`,
           }
           originalConfig.headers["Authorization"] = `Bearer ${res}`
           baseAxios(originalConfig)

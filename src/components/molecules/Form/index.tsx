@@ -15,6 +15,8 @@ import { useForm } from "react-hook-form"
 import * as Yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
 import baseAxios from "src/lib/axios"
+import { useContextSelector } from "use-context-selector"
+import { UserContent } from "src/contexts/UserContext"
 
 type DataType = {
   name: string
@@ -49,10 +51,21 @@ export default function Form() {
   } = useForm({
     resolver: yupResolver(subscribeFormSchema),
   })
+  const { setUser } = useContextSelector(UserContent, (ctx) => {
+    return {
+      setUser: ctx.setUser,
+    }
+  })
 
   async function submit(data: DataType) {
     try {
-      await baseAxios.post("user", { body: JSON.stringify(data) })
+      const userData = await baseAxios.post("user", {
+        body: JSON.stringify(data),
+      })
+
+      if (userData.data) {
+        setUser(userData.data)
+      }
     } catch (err: any) {
       console.log(err.message)
     }

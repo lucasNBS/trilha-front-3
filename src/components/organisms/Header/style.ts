@@ -29,3 +29,9 @@ export const HeaderSubcontainer = styled.div<{ gap?: number }>`
   align-items: center;
   gap: ${({ gap }) => (gap ? `${gap}rem` : "3.5rem")};
 `
+
+export const UserName = styled.span`
+  font-size: 1.25rem;
+  font-family: ${({ theme }) => theme.fonts.primary};
+  color: #fff;
+`

@@ -3,11 +3,7 @@ import prisma from "src/lib/prisma"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import { setCookie } from "nookies"
-
-type UserType = {
-  name: string
-  email: string
-}
+import { UserType } from "src/types/user"
 
 async function login(
   name: string,
@@ -28,21 +24,38 @@ async function login(
       return [true, null]
     }
 
-    const accessToken = jwt.sign({ id: user.id }, process.env.ACCESS_TOKEN_SECRET as string, {
-      expiresIn: "20s"
-    })
-    const refreshToken = jwt.sign({ id: user.id }, process.env.REFRESH_TOKEN_SECRET as string)
+    const accessToken = jwt.sign(
+      { id: user.id },
+      process.env.ACCESS_TOKEN_SECRET as string,
+      {
+        expiresIn: "20s",
+      }
+    )
+    const refreshToken = jwt.sign(
+      { id: user.id },
+      process.env.REFRESH_TOKEN_SECRET as string
+    )
 
     setCookie({ res }, "AccessToken", accessToken, { maxAge: 20, path: "/" })
     setCookie({ res }, "RefreshToken", refreshToken, { path: "/" })
 
-    return [true, { name: user.name, email: user.email }]
+    const userData = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+    }
+
+    return [true, userData]
   } catch (err: any) {
     throw err
   }
 }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   switch (req.method) {
     case "POST":
       const { body } = req.body
@@ -64,8 +77,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
 
       try {
-        await prisma.user.create({ data: user })
-        return res.status(201).send("")
+        const newUser = await prisma.user.create({ data: user })
+        return res.status(201).send(JSON.stringify(newUser))
       } catch (err: any) {
         throw err
       }

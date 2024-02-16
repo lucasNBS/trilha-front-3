@@ -15,21 +15,29 @@ export default async function handler(
         return res.status(401).send("")
       }
 
-      jwt.verify(refreshToken as string, process.env.REFRESH_TOKEN_SECRET as string, (
-        err,
-        user: any
-      ) => {
-        if (err) {
-          return res.status(403).send("")
+      jwt.verify(
+        refreshToken as string,
+        process.env.REFRESH_TOKEN_SECRET as string,
+        (err, user: any) => {
+          if (err) {
+            return res.status(403).send("")
+          }
+
+          const accessToken = jwt.sign(
+            { id: user.id },
+            process.env.ACCESS_TOKEN_SECRET as string,
+            {
+              expiresIn: "20s",
+            }
+          )
+
+          setCookie({ res }, "AccessToken", accessToken, {
+            maxAge: 20,
+            path: "/",
+          })
+          return res.send(accessToken)
         }
-
-        const accessToken = jwt.sign({ id: user.id }, process.env.ACCESS_TOKEN_SECRET as string, {
-          expiresIn: "20s"
-        })
-
-        setCookie({ res }, "AccessToken", accessToken, { maxAge: 20, path: "/" })
-        return res.send(accessToken)
-      })
+      )
       break
   }
 }

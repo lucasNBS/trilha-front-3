@@ -1,7 +1,10 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest, NextApiResponse } from "next"
 import jwt from "jsonwebtoken"
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   switch (req.method) {
     case "GET":
       const authHeader = req.headers["authorization"]
@@ -11,12 +14,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(401).send("")
       }
 
-      jwt.verify(token, process.env.ACCESS_TOKEN_SECRET as string, (err, user) => {
-        if (err) {
-          return res.status(403).send("")
-        }
+      jwt.verify(
+        token,
+        process.env.ACCESS_TOKEN_SECRET as string,
+        (err, user) => {
+          if (err) {
+            return res.status(403).send("")
+          }
 
-        return res.send(JSON.stringify({ name: "ASD" }))
-      })
+          return res.send(JSON.stringify({ name: "ASD" }))
+        }
+      )
   }
 }

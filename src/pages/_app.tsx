@@ -2,6 +2,7 @@ import type { AppProps } from "next/app"
 import Head from "next/head"
 import AditionalContentContext from "src/contexts/AditionalContentContext"
 import ThemeContenxt from "src/contexts/ThemeContext"
+import UserContext from "src/contexts/UserContext"
 import GlobalStyle from "src/styles/GlobalStyle"
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -18,8 +19,10 @@ export default function App({ Component, pageProps }: AppProps) {
       </Head>
       <ThemeContenxt>
         <AditionalContentContext>
-          <GlobalStyle />
-          <Component {...pageProps} />
+          <UserContext>
+            <GlobalStyle />
+            <Component {...pageProps} />
+          </UserContext>
         </AditionalContentContext>
       </ThemeContenxt>
     </>
