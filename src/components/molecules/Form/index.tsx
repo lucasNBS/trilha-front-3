@@ -52,7 +52,7 @@ export default function Form() {
 
   async function submit(data: DataType) {
     try {
-      const res = await baseAxios.post("user", { body: JSON.stringify(data) })
+      await baseAxios.post("user", { body: JSON.stringify(data) })
     } catch (err: any) {
       console.log(err.message)
     }
