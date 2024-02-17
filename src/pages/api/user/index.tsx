@@ -62,14 +62,18 @@ export default async function handler(
         return res.status(401).send("")
       }
 
-      jwt.verify(token as string, process.env.ACCESS_TOKEN_SECRET as string,
+      jwt.verify(
+        token as string,
+        process.env.ACCESS_TOKEN_SECRET as string,
         async (err, user: any) => {
           if (err) {
             return res.status(403).send("")
           }
 
           if (user) {
-            const userData = await prisma.user.findUnique({ where: { id: user.id } })
+            const userData = await prisma.user.findUnique({
+              where: { id: user.id },
+            })
 
             if (!userData) {
               return res.status(404).send("")

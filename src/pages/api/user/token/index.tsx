@@ -8,8 +8,7 @@ export default async function handler(
 ) {
   switch (req.method) {
     case "POST":
-      const { body } = req.body
-      const { refreshToken } = body
+      const { refreshToken } = req.body
 
       if (refreshToken == undefined || !refreshToken) {
         return res.status(400).send("")

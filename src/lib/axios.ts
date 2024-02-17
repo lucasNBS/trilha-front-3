@@ -1,8 +1,14 @@
 import axios, { AxiosError } from "axios"
 import { parseCookies } from "nookies"
+import tokenRefresh from "src/utils/token"
+
+type RequestItemType = {
+  onSuccess: (token: string) => void
+  onFailure: (err: AxiosError) => void
+}
 
 let isRefreshing = false
-let failedRequestList: unknown[] = []
+let failedRequestList: RequestItemType[] = []
 
 const baseAxios = axios.create({
   baseURL: "http://localhost:3000/api/",
@@ -20,49 +26,47 @@ baseAxios.interceptors.response.use(
   (response) => {
     return response
   },
-  async function (err) {
+  async (err) => {
     if (err.response.status === 401) {
       const originalConfig = err.config
 
       if (!isRefreshing) {
         isRefreshing = true
 
-        baseAxios
-          .post("user/token", {
-            body: { refreshToken: parseCookies()["RefreshToken"] },
-          })
-          .then((res) => {
-            baseAxios.defaults.headers.common = {
-              Authorization: `Bearer ${parseCookies()["AccessToken"]}`,
-            }
-            originalConfig.headers["Authorization"] = `Bearer ${res}`
-            baseAxios(originalConfig)
+        try {
+          const token = await tokenRefresh()
 
-            failedRequestList.forEach((request: any) => {
-              request.onSuccess(res)
-            })
-            failedRequestList = []
+          baseAxios.defaults.headers.common = {
+            Authorization: `Bearer ${parseCookies()["AccessToken"]}`,
+          }
+          originalConfig.headers["Authorization"] = `Bearer ${token}`
+          baseAxios(originalConfig)
+
+          failedRequestList.forEach((request: RequestItemType) => {
+            request.onSuccess(token)
           })
-          .catch(() => {
-            failedRequestList.forEach((onFailure: any) => {
-              onFailure(err)
-            })
-            failedRequestList = []
+          failedRequestList = []
+        } catch (error) {
+          failedRequestList.forEach((request: RequestItemType) => {
+            request.onFailure(err)
           })
-          .finally(() => {
-            isRefreshing = false
-          })
+          failedRequestList = []
+        }
+
+        isRefreshing = false
       } else {
         return new Promise((resolve, reject) => {
-          failedRequestList.push({
+          const requestItem: RequestItemType = {
             onSuccess: (token: string) => {
               originalConfig.headers["Authorization"] = `Bearer ${token}`
               resolve(baseAxios(originalConfig))
             },
             onFailure: (err: AxiosError) => {
               reject(err)
-            }
-          })
+            },
+          }
+
+          failedRequestList.push(requestItem)
         })
       }
     }
