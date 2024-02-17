@@ -1,14 +1,8 @@
-import axios, { AxiosError } from "axios"
+import axios from "axios"
 import { parseCookies } from "nookies"
 import tokenRefresh from "src/utils/token"
 
-type RequestItemType = {
-  onSuccess: (token: string) => void
-  onFailure: (err: AxiosError) => void
-}
-
 let isRefreshing = false
-let failedRequestList: RequestItemType[] = []
 
 const baseAxios = axios.create({
   baseURL: "http://localhost:3000/api/",
@@ -41,33 +35,11 @@ baseAxios.interceptors.response.use(
           }
           originalConfig.headers["Authorization"] = `Bearer ${token}`
           baseAxios(originalConfig)
-
-          failedRequestList.forEach((request: RequestItemType) => {
-            request.onSuccess(token)
-          })
-          failedRequestList = []
         } catch (error) {
-          failedRequestList.forEach((request: RequestItemType) => {
-            request.onFailure(err)
-          })
-          failedRequestList = []
+          console.log(error)
         }
 
         isRefreshing = false
-      } else {
-        return new Promise((resolve, reject) => {
-          const requestItem: RequestItemType = {
-            onSuccess: (token: string) => {
-              originalConfig.headers["Authorization"] = `Bearer ${token}`
-              resolve(baseAxios(originalConfig))
-            },
-            onFailure: (err: AxiosError) => {
-              reject(err)
-            },
-          }
-
-          failedRequestList.push(requestItem)
-        })
       }
     }
   }

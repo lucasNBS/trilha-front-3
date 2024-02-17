@@ -1,4 +1,4 @@
-import user from "public/icons/user.svg"
+import person from "public/icons/user.svg"
 import email from "public/icons/email.svg"
 import padlock from "public/icons/padlock.svg"
 import {
@@ -48,23 +48,31 @@ export default function Form() {
     register,
     formState: { errors },
     handleSubmit,
+    reset,
   } = useForm({
     resolver: yupResolver(subscribeFormSchema),
   })
-  const { setUser } = useContextSelector(UserContent, (ctx) => {
+  const { user, setUser } = useContextSelector(UserContent, (ctx) => {
     return {
+      user: ctx.user,
       setUser: ctx.setUser,
     }
   })
 
   async function submit(data: DataType) {
     try {
+      if (user.id != undefined) {
+        alert("Você já está inscrito")
+        return
+      }
+
       const userData = await baseAxios.post("user", {
         body: JSON.stringify(data),
       })
 
       if (userData.data) {
         setUser(userData.data)
+        reset()
       }
     } catch (err: any) {
       console.log(err.message)
@@ -77,7 +85,7 @@ export default function Form() {
         <FormLabel>Nome</FormLabel>
         <FormInputContainer>
           <FormInput {...register("name")} type="text" />
-          <Icon src={user} alt="Ícone de  usuário" />
+          <Icon src={person} alt="Ícone de  usuário" />
         </FormInputContainer>
         {errors.name?.message && (
           <ErrorMessage>{errors.name.message}</ErrorMessage>
