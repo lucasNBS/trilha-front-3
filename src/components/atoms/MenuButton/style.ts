@@ -6,7 +6,7 @@ export const MenuButtonContainer = styled.button`
   justify-content: center;
   align-items: center;
 
-  @media screen and (min-width: 769px) {
+  @media screen and (min-width: 901px) {
     display: none;
   }
 `

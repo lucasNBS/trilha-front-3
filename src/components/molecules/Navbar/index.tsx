@@ -19,6 +19,11 @@ export default function Navbar({ type }: NavbarProps) {
           </NavbarListItem>
         )}
         <NavbarListItem>
+          <Link href="/artigos" prefetch={false}>
+            Artigos
+          </Link>
+        </NavbarListItem>
+        <NavbarListItem>
           <Link href="/" prefetch={false}>
             Contato
           </Link>
