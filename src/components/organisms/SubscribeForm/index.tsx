@@ -43,7 +43,7 @@ const subscribeFormSchema = Yup.object().shape({
     .max(20, "Senha muito longa"),
 })
 
-export default function Form() {
+export default function SubscribeForm() {
   const {
     register,
     formState: { errors },
