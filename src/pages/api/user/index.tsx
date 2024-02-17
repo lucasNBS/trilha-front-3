@@ -39,12 +39,8 @@ async function login(
     setCookie({ res }, "AccessToken", accessToken, { maxAge: 20, path: "/" })
     setCookie({ res }, "RefreshToken", refreshToken, { path: "/" })
 
-    const userData = {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      isAdmin: user.isAdmin,
-    }
+    const { password: userPassword, ...data } = user
+    const userData = data
 
     return [true, userData]
   } catch (err: any) {
@@ -56,9 +52,38 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  const { body } = req.body
   switch (req.method) {
+    case "GET":
+      const authHeader = req.headers["authorization"]
+      const token = authHeader && authHeader.split(" ")[1]
+
+      if (token == "undefined" || !token) {
+        return res.status(401).send("")
+      }
+
+      jwt.verify(token as string, process.env.ACCESS_TOKEN_SECRET as string,
+        async (err, user: any) => {
+          if (err) {
+            return res.status(403).send("")
+          }
+
+          if (user) {
+            const userData = await prisma.user.findUnique({ where: { id: user.id } })
+
+            if (!userData) {
+              return res.status(404).send("")
+            }
+
+            const { password, ...dataToSend } = userData
+
+            return res.send(JSON.stringify(dataToSend))
+          }
+        }
+      )
+
+      break
     case "POST":
-      const { body } = req.body
       const { name, email, password } = JSON.parse(body)
 
       const [isLogedIn, storedUser] = await login(name, email, password, res)
@@ -78,7 +103,9 @@ export default async function handler(
 
       try {
         const newUser = await prisma.user.create({ data: user })
-        return res.status(201).send(JSON.stringify(newUser))
+        const { password: newUserPassword, ...userData } = newUser
+
+        return res.status(201).send(JSON.stringify(userData))
       } catch (err: any) {
         throw err
       }

@@ -11,8 +11,8 @@ export default async function handler(
       const { body } = req.body
       const { refreshToken } = body
 
-      if (!refreshToken) {
-        return res.status(401).send("")
+      if (refreshToken == undefined || !refreshToken) {
+        return res.status(400).send("")
       }
 
       jwt.verify(
