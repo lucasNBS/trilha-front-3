@@ -1,7 +1,6 @@
 import prisma from "src/lib/prisma"
 import multer from "multer"
 import fs from "fs"
-import jwt from "jsonwebtoken"
 import { isAuthenticated } from "src/utils/token"
 
 export const config = {
@@ -19,6 +18,37 @@ const upload = multer({
 export default async function handler(req: any, res: any) {
   switch (req.method) {
     case "GET":
+      const { page } = req.query
+      const pageNumber = Number(page)
+
+      try {
+        const articlesPerPage = 20
+        const articles = await prisma.article.findMany({
+          take: articlesPerPage,
+          skip: (pageNumber - 1) * articlesPerPage,
+        })
+        const totalArticles = await prisma.article.count()
+        const totalAPIPages = Math.ceil(totalArticles / articlesPerPage)
+
+        const next =
+          pageNumber < totalAPIPages
+            ? `http://localhost:3000/api/article?page=${pageNumber + 1}`
+            : null
+        const prev =
+          pageNumber > 1
+            ? `http://localhost:3000/api/article?page=${pageNumber - 1}`
+            : null
+
+        const data = {
+          next: next,
+          prev: prev,
+          results: articles,
+        }
+
+        return res.status(200).send(JSON.stringify(data))
+      } catch (err) {
+        throw err
+      }
       break
     case "POST":
       upload.single("cover")(req, res, async (err) => {

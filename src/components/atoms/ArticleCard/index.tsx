@@ -1,17 +1,29 @@
 import Image from "next/image"
-import cover from "public/images/cover.jpeg"
-import { ArticleCardContainer, ContentContainer } from "./style"
+import { ArticleCardContainer, ContentContainer, Text, Title } from "./style"
 
-export default function ArticleCard() {
+type ArticleCardProps = {
+  title: string
+  content: string
+  cover: string
+}
+
+export default function ArticleCard({
+  title,
+  content,
+  cover,
+}: ArticleCardProps) {
   return (
     <ArticleCardContainer>
       <Image
-        src={cover.src}
+        src={cover}
         layout="fill"
         objectPosition="center"
         alt="Capa do artigo"
       />
-      <ContentContainer />
+      <ContentContainer>
+        <Title>{title}</Title>
+        <Text>{content}</Text>
+      </ContentContainer>
     </ArticleCardContainer>
   )
 }
