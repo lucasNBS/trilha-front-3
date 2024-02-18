@@ -66,9 +66,7 @@ export default function SubscribeForm() {
         return
       }
 
-      const userData = await baseAxios.post("user", {
-        body: JSON.stringify(data),
-      })
+      const userData = await baseAxios.post("user", data)
 
       if (userData.data) {
         setUser(userData.data)

@@ -1,6 +1,6 @@
 import styled from "styled-components"
 
-export const ArticleFormContainer = styled.section`
+export const ArticleFormContainer = styled.form`
   width: 100%;
   max-width: 1200px;
   padding: 4rem 2rem 0;
@@ -11,7 +11,7 @@ export const ArticleFormContainer = styled.section`
   gap: 2rem;
 `
 
-export const FormContainer = styled.form`
+export const FormContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -70,11 +70,20 @@ export const FormInput = styled.input`
   border: 1px solid #666;
 
   &.image {
+    cursor: pointer;
     position: absolute;
     inset: 0;
     padding: 0;
     border: none;
+    opacity: 0;
+    z-index: 1;
   }
+`
+
+export const ErrorMessage = styled.span`
+  font-size: 1rem;
+  font-family: ${({ theme }) => theme.fonts.primary};
+  color: #f00;
 `
 
 export const FormTextarea = styled.textarea`
@@ -90,6 +99,7 @@ export const FormTextarea = styled.textarea`
 `
 
 export const Button = styled.button`
+  cursor: pointer;
   background-color: ${({ theme }) => theme.colors.tertiary};
   padding: 0.5rem 1rem;
   font-size: 1.125rem;

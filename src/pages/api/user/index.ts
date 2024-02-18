@@ -52,7 +52,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { body } = req.body
   switch (req.method) {
     case "GET":
       const authHeader = req.headers["authorization"]
@@ -88,7 +87,7 @@ export default async function handler(
 
       break
     case "POST":
-      const { name, email, password } = JSON.parse(body)
+      const { name, email, password } = req.body
 
       const [isLogedIn, storedUser] = await login(name, email, password, res)
 
@@ -108,6 +107,24 @@ export default async function handler(
       try {
         const newUser = await prisma.user.create({ data: user })
         const { password: newUserPassword, ...userData } = newUser
+
+        const accessToken = jwt.sign(
+          { id: newUser.id },
+          process.env.ACCESS_TOKEN_SECRET as string,
+          {
+            expiresIn: "20s",
+          }
+        )
+        const refreshToken = jwt.sign(
+          { id: newUser.id },
+          process.env.REFRESH_TOKEN_SECRET as string
+        )
+
+        setCookie({ res }, "AccessToken", accessToken, {
+          maxAge: 20,
+          path: "/",
+        })
+        setCookie({ res }, "RefreshToken", refreshToken, { path: "/" })
 
         return res.status(201).send(JSON.stringify(userData))
       } catch (err: any) {
