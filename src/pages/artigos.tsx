@@ -62,6 +62,7 @@ export default function Page({
             return (
               <ArticleCard
                 key={item.id}
+                id={item.id}
                 title={item.title}
                 content={item.content}
                 cover={item.cover}

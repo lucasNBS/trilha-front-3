@@ -5,4 +5,11 @@ export type ArticleType = {
   title: string
   content: string
   authorId: number
+  author?: {
+    id: number
+    name: string
+    email: string
+    password: string
+    isAdmin: boolean
+  }
 }
