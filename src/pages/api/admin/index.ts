@@ -1,7 +1,10 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import prisma from "src/lib/prisma";
+import { NextApiRequest, NextApiResponse } from "next"
+import prisma from "src/lib/prisma"
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   switch (req.method) {
     case "GET":
       try {
@@ -10,7 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         const dataToSend = {
           usersCount,
-          articlesCount
+          articlesCount,
         }
 
         return res.status(200).send(JSON.stringify(dataToSend))

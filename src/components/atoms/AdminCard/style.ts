@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const AdminCardContainer = styled.div`
   padding: 1rem;
@@ -8,10 +8,10 @@ export const AdminCardContainer = styled.div`
   align-items: center;
 `
 
-export const Image = styled.div`
-  background-color: red;
-  width: 200px;
-  aspect-ratio: 3 / 4;
+export const ImageContainer = styled.div`
+  position: relative;
+  width: 300px;
+  height: 300px;
 `
 
 export const Text = styled.span`

@@ -2,11 +2,18 @@ import { UserContent } from "src/contexts/UserContext"
 import { useContextSelector } from "use-context-selector"
 import { AdminContainer, AdminContent, Title } from "./style"
 import AdminCard from "src/components/atoms/AdminCard"
+import conference from "public/images/conference.jpg"
+import articles from "public/images/articles.jpg"
 
-export default function Admin() {
+type AdminProps = {
+  usersCount: number
+  articlesCount: number
+}
+
+export default function Admin({ usersCount, articlesCount }: AdminProps) {
   const { user } = useContextSelector(UserContent, (ctx) => {
     return {
-      user: ctx.user
+      user: ctx.user,
     }
   })
 
@@ -14,8 +21,16 @@ export default function Admin() {
     <AdminContainer>
       <Title>Olá, {user.name}</Title>
       <AdminContent>
-        <AdminCard />
-        <AdminCard />
+        <AdminCard
+          text="Usuários Inscritos"
+          count={usersCount}
+          image={conference.src}
+        />
+        <AdminCard
+          text="Artigos Publicados"
+          count={articlesCount}
+          image={articles.src}
+        />
       </AdminContent>
     </AdminContainer>
   )

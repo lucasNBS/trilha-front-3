@@ -1,11 +1,25 @@
-import { AdminCardContainer, Count, Image, Text } from "./style";
+import Image from "next/image"
+import { AdminCardContainer, Count, ImageContainer, Text } from "./style"
 
-export default function AdminCard() {
+type AdminCardProps = {
+  image: string
+  text: string
+  count: number
+}
+
+export default function AdminCard({ image, text, count }: AdminCardProps) {
   return (
     <AdminCardContainer>
-      <Image />
-      <Text>Usuários Inscritos</Text>
-      <Count>420</Count>
+      <ImageContainer>
+        <Image
+          src={image}
+          alt={`Imagem ilustrativa do indicador de ${text}`}
+          objectFit="cover"
+          layout="fill"
+        />
+      </ImageContainer>
+      <Text>{text}</Text>
+      <Count>{count}</Count>
     </AdminCardContainer>
   )
 }
