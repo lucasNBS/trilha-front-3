@@ -16,7 +16,7 @@ export default function Header() {
   return (
     <HeaderContainer>
       <HeaderSubcontainer gap={1.5}>
-        <MenuButton />
+        <MenuButton user={user} />
         <Logo type="header" />
       </HeaderSubcontainer>
       <HeaderSubcontainer>

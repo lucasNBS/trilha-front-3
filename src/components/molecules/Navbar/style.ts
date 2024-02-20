@@ -1,10 +1,22 @@
 import styled from "styled-components"
 import { TypeType } from "."
 
-export const NavbarContainer = styled.nav<{ type: TypeType }>`
+export const NavbarContainer = styled.nav<{
+  type: TypeType
+  hasAdmin: boolean
+  isLoged: boolean
+}>`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media screen and (max-width: 1100px) {
+    display: ${({ type, hasAdmin }) => type === "header" && hasAdmin && "none"};
+  }
+
+  @media screen and (max-width: 1024px) {
+    display: ${({ type, isLoged }) => type === "header" && isLoged && "none"};
+  }
 
   @media screen and (max-width: 900px) {
     display: ${({ type }) => type === "header" && "none"};

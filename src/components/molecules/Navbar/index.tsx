@@ -1,5 +1,7 @@
 import Link from "next/link"
 import { NavbarContainer, NavbarList, NavbarListItem } from "./style"
+import { UserContent } from "src/contexts/UserContext"
+import { useContextSelector } from "use-context-selector"
 
 export type TypeType = "header" | "footer" | "aside"
 
@@ -8,8 +10,17 @@ type NavbarProps = {
 }
 
 export default function Navbar({ type }: NavbarProps) {
+  const { user } = useContextSelector(UserContent, (ctx) => {
+    return {
+      user: ctx.user,
+    }
+  })
+
+  const hasAdmin = user.isAdmin
+  const isLoged = !!user.id
+
   return (
-    <NavbarContainer type={type}>
+    <NavbarContainer hasAdmin={hasAdmin} isLoged={isLoged} type={type}>
       <NavbarList type={type}>
         {type !== "header" && (
           <NavbarListItem>
@@ -18,11 +29,20 @@ export default function Navbar({ type }: NavbarProps) {
             </Link>
           </NavbarListItem>
         )}
-        <NavbarListItem>
-          <Link href="/artigo/criar" prefetch={false}>
-            Criar Artigo
-          </Link>
-        </NavbarListItem>
+        {hasAdmin && (
+          <NavbarListItem>
+            <Link href="/admin" prefetch={false}>
+              Admin
+            </Link>
+          </NavbarListItem>
+        )}
+        {isLoged && (
+          <NavbarListItem>
+            <Link href="/artigo/criar" prefetch={false}>
+              Criar Artigo
+            </Link>
+          </NavbarListItem>
+        )}
         <NavbarListItem>
           <Link href="/artigos" prefetch={false}>
             Artigos
