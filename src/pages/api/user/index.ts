@@ -25,14 +25,14 @@ async function login(
     }
 
     const accessToken = jwt.sign(
-      { id: user.id },
+      { id: user.id, isAdmin: user.isAdmin },
       process.env.ACCESS_TOKEN_SECRET as string,
       {
         expiresIn: "20s",
       }
     )
     const refreshToken = jwt.sign(
-      { id: user.id },
+      { id: user.id, isAdmin: user.isAdmin },
       process.env.REFRESH_TOKEN_SECRET as string
     )
 
@@ -109,14 +109,14 @@ export default async function handler(
         const { password: newUserPassword, ...userData } = newUser
 
         const accessToken = jwt.sign(
-          { id: newUser.id },
+          { id: newUser.id, isAdmin: newUser.isAdmin },
           process.env.ACCESS_TOKEN_SECRET as string,
           {
             expiresIn: "20s",
           }
         )
         const refreshToken = jwt.sign(
-          { id: newUser.id },
+          { id: newUser.id, isAdmin: newUser.isAdmin },
           process.env.REFRESH_TOKEN_SECRET as string
         )
 

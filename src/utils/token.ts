@@ -1,10 +1,11 @@
 import { parseCookies } from "nookies"
 import baseAxios from "src/lib/axios"
 import jwt from "jsonwebtoken"
+import { NextPageContext } from "next"
 
-export default async function tokenRefresh() {
+export default async function tokenRefresh(server?: NextPageContext) {
   try {
-    const refreshToken = parseCookies()["RefreshToken"]
+    const refreshToken = parseCookies(server ? server : null)["RefreshToken"]
     const res = await baseAxios.post("user/token", { refreshToken })
     return res.data
   } catch (err) {
